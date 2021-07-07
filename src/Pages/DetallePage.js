@@ -1,5 +1,6 @@
 
 import React, {useState,useEffect} from 'react'
+import { Card, CardGroup, Button, Spinner } from 'react-bootstrap';
 import Producto from '../Components/Producto'
 //import {getProducto} from "../Services/ItemsServices"
 import firebase from '../Config/Firebase'
@@ -95,10 +96,10 @@ function Home(props){
             return (
                 <div className="Box">
                     <div className="App-header">
-               
-                    <div>Catálogo 2021</div>
-                    <div>Loading...</div>
-                    
+                    <h1>Trendy Store Home</h1>
+                    <br></br>
+                    <Spinner animation="border" variant="light" />
+                                       
                     </div> 
                 </div>
     
@@ -109,13 +110,20 @@ function Home(props){
                  <div className="Box">
                      <div className="App-header">
            
-                      <h1>Catálogo 2021</h1>
-                      <br></br>
-                      <div>{titulo}</div>
+                     <h1>Trendy Store Home</h1>
                      <br></br>
-                        <div className="Registro">
+                     <h1>Colección Otoño-Invierno 2021</h1>
+                      <br></br>
+                      <h2>{titulo}</h2>
+                     <br></br>
+                       
+                        <div >
+                        <CardGroup className="CardGroup">
                         <Producto id={producto.id} data={producto.data()} verDetalle={false} extendida={true}/>
-                        <form className="App-header" onSubmit={handleSubmit}>
+                        
+                        <Card className="productCard">
+                        <h3>Editar producto</h3>
+                        <form className="FormHeader" onSubmit={handleSubmit}>
                             <div>
                                 <label>Nombre</label>
                                 <input type="text" name="name" value={form.name} onChange={handleChange} ></input>
@@ -124,12 +132,13 @@ function Home(props){
                                 <label>Precio</label>
                                 <input type="text" name="price" value={form.price} onChange={handleChange}></input>
                             </div>
-                            <input type="submit" value="Guardar" className="Button"></input>
-                            <button onClick={handleDelete} className="Button">Eliminar</button>
+                            <Button variant="outline-dark" type="submit" className="Button">Guardar</Button>
+                            <Button variant="outline-dark" onClick={handleDelete} className="Button">Eliminar</Button>
                         </form>
-                        
-                        <h1>Agregar producto</h1>
-                        <form className="App-header" onSubmit={handleSubmitAdd}>
+                        </Card>
+                        <Card className="productCard">
+                        <h3>Agregar producto</h3>
+                        <form className="FormHeader" onSubmit={handleSubmitAdd}>
                             <div>
                                 <label>Nombre</label>
                                 <input type="text" name="name" value={formAdd.name} onChange={handleChangeAdd}></input>
@@ -138,9 +147,13 @@ function Home(props){
                                 <label>Precio</label>
                                 <input type="number" name="price" value={formAdd.price} onChange={handleChangeAdd}></input>
                             </div>
-                            <input type="submit" value="Guardar" className="Button"></input>
+                            <Button variant="outline-dark" type="submit" className="Button">Guardar</Button>
                         </form>
+                        </Card>
+                        </CardGroup>
                         </div>
+                        
+                        
                         </div> 
                     </div>
 

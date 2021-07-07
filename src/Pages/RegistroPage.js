@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import firebase from "../Config/Firebase"
+import ButtonWithLoading from '../Components/Forms/ButtonWithLoading'
+import FormGroup from '../Components/Forms/FormGroup'
+import AlertCustom from '../Components/Forms/AlertCustom'
+import {Row} from 'react-bootstrap'
+
 
 function Registro(){
     const [form,setForm] = useState({nombre:'',apellido:'',email:'',password:'',repassword:''})
+    const [loading, setLoading] = useState(false)
+    const [alert,setAlert] = useState({variant:'',text:''})
     const handleSubmit = (event) => {
         event.preventDefault()
        // console.log(form)
+        setLoading(true)
         firebase.auth.createUserWithEmailAndPassword(form.email,form.password)
         .then(data=>{//console.log("registro",data.user.uid)
         firebase.db.collection("usuarios").add({
@@ -16,9 +24,15 @@ function Registro(){
 
         })  
         })
-            .then(data=>{console.log(data)})
-            .catch(error=>{console.log("Error add",error)})
-            .catch(error=>{console.log("Error",error)})
+            .then(data=>{
+                setAlert({variant:'success',text:"Has sido registrado"})
+                setLoading(false)
+                console.log(data)})
+            .catch(error=>{
+                setAlert({variant:'danger',text:"Ha ocurrido un error"})
+                setLoading(false)
+                console.log("Error",error)})
+            
     }
 
 
@@ -31,30 +45,33 @@ function Registro(){
 
 return (
     <div className="Box">
-        <div className="Registro">
-        <form className="App-header" onSubmit={handleSubmit}>
-            <div>
-            <label>Nombre</label>
-            <input type="text" name="nombre" value={form.nombre} onChange={handleChange}></input>
+        <div  className="App-header">
+        <h1>Registrate en Trendy Store</h1>
+        <br></br>
+        <h2>Por favor, ingresá tus datos</h2>
+        <br></br>
+        
+        <form className="Registro" onSubmit={handleSubmit}>
+            <Row>
+            <span></span>
+            <FormGroup label="Nombre" name="nombre" type="text" placeholder="Ingrese su nombre" value={form.nombre} change={handleChange} />
+            <span></span>
+            <div className="col-xs-6">
+            <FormGroup label="Apellido" name="apellido" type="text" placeholder="Ingrese su apellido" value={form.apellido} change={handleChange} />
             </div>
+            </Row>
             <div>
-            <label>Apellido</label>
-            <input type="text" name="apellido" value={form.apellido} onChange={handleChange}></input>
+            <FormGroup label="Email" name="email" type="email" placeholder="Ingrese su email" value={form.email} change={handleChange} />
             </div>
-            <div>
-            <label>Email</label>
-            <input type="email" name="email" value={form.email} onChange={handleChange}></input>
-            </div>
-            <div>
-            <label>Contraseña</label>
-            <input type="password" name="password" value={form.password} onChange={handleChange}></input>
-            </div>
-            <div>
-            <label>Repetir Contraseña</label>
-            <input type="password" name="repassword" value={form.repassword} onChange={handleChange}></input>
-            </div>
-            <button type="submit" className="Button">Registrarse</button>
-        </form>    
+            <Row>
+            <FormGroup label="Contraseña" name="password" type="password" placeholder="Ingrese su contraseña" value={form.password} change={handleChange} />       
+            <br></br>
+            <FormGroup label="Confirmar contraseña" name="repassword" type="password" placeholder="Repita su contraseña" value={form.repassword} change={handleChange} />
+            </Row>
+               </form>  
+               <ButtonWithLoading loading={loading} >Registrarse</ButtonWithLoading>
+            <AlertCustom variant={alert.variant} text={alert.text} />
+       
         </div>
     </div>
 )

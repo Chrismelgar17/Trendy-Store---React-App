@@ -2,12 +2,13 @@
 import React, {useState,useEffect} from 'react'
 import Producto from '../Components/Producto'
 import firebase from 'firebase'
+import {CardGroup, Spinner} from 'react-bootstrap'
 //import {getProductos} from "../Services/ItemsServices"
 
 
 function Home(props){
     const [productos,setProductos] = useState ([]);                   
-    const [titulo,setTitulo] = useState ("Elija su producto");
+    const [titulo/*,setTitulo*/] = useState ("Elija su producto");
     const [loading,setLoading] = useState (true);
         
          
@@ -40,9 +41,10 @@ function Home(props){
             return(
                 <div className="Box">
                     <div className="App-header">
-               
-                    <h1>Catálogo 2021</h1>
-                    <div>Loading...</div>
+                    <h1>Trendy Store Home</h1>
+                    <h1>Colección Otoño-Invierno 2021</h1>
+                    <br></br>
+                    <Spinner animation="border" variant="light" />
                     
                     </div> 
                 </div>
@@ -54,12 +56,15 @@ function Home(props){
                  <div className="Box">
                      <div className="App-header">
            
-                      <h1>Catálogo 2021</h1>
+                     <h1>Trendy Store Home</h1>
+                     <br></br>
+                     <h1>Colección Otoño-Invierno 2021</h1>
                       <br></br>
                       <h2>{titulo}</h2>
                      <br></br>
-                        {productos.map(producto=><Producto id={producto.id} data={producto.data()}/>)}
-                
+                     <CardGroup className="CardGroup">
+                        {productos.map(producto=><Producto id={producto.id} data={producto.data()} userLogin={props.userLogin}/>)}
+                    </CardGroup>
                         
                 
                         </div> 
