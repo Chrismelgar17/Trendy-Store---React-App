@@ -8,20 +8,23 @@ import LoginPage from "./Pages/LoginPage"
 import DetallePage from "./Pages/DetallePage"
 import { Container } from 'react-bootstrap'
 
+import GlobalState from './Context/GlobalState'
+
 function App() {
   
   const [userLogin, setUserLogin ] = useState(false);
 
   return (
-       
+    <GlobalState>
     <BrowserRouter>
-    <Menu userLogin={userLogin} setUserLogin={setUserLogin} />
-    <Route path="/" component={()=><HomePage userLogin={userLogin}/>} exact/>
+    <Menu/>
+    <Route path="/" component={HomePage} exact/>
     <Route path="/registro" component={RegistroPage} exact/>
-    <Route path="/login" component={()=><LoginPage setUserLogin={setUserLogin}/>} exact/>
+    <Route path="/login" component={LoginPage} exact/>
     <Route path="/producto/:id" component={DetallePage} exact/>
     
     </BrowserRouter>
+    </GlobalState>
     
     
   )

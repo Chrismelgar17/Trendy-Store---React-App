@@ -1,14 +1,17 @@
 import React from "react"
 import { Nav, Navbar } from "react-bootstrap";
 //import {Link} from "react-router-dom"
-import Option from './Option.js'
+import Option from './Option.js';
+import EcommerceContext from "../../Context/EcommerceContext.js";
 
 function Menu(props){
 
         return(
-        
+          <EcommerceContext.Consumer>
+          {
+              context=>
         <div >
-            <Navbar className="Menu" bg="dark" variant="dark" expand="lg">
+            <Navbar fixed="top" className="Menu" bg="dark" variant="dark" expand="lg">
               <Navbar.Brand href="/#home">
               <img alt=""
               src="https://image.flaticon.com/icons/png/512/776/776623.png"
@@ -19,12 +22,13 @@ function Menu(props){
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav" >
                   <Nav className="ml-auto">
-                    {props.userLogin&&
+                    {context.userLogin&&
                     <>
+                    <Navbar.Text>{context.userInfo.email} </Navbar.Text>
                     <Option className="Option" path="/" label="Inicio" />
-                    <Nav.Link onClick={()=>props.setUserLogin(false)}>Salir</Nav.Link>
+                    <Nav.Link onClick={()=>context.logoutUser(false)}>Salir</Nav.Link>
                     </>}
-                    {!props.userLogin&&
+                    {!context.userLogin&&
                     <>
                     <Option className="Option" path="/registro" label="Registro" />
                   <Option className="Option" path="/login" label="Login" />
@@ -36,7 +40,8 @@ function Menu(props){
            
            
         </div>
-        
+        }
+        </EcommerceContext.Consumer>
         )
     
 } 

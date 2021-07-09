@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {Card, Button} from 'react-bootstrap' 
 import {Link} from "react-router-dom"
+import EcommerceContext from '../Context/EcommerceContext'
 
 function Producto(props) {
     const id = props.id
@@ -15,11 +16,8 @@ function Producto(props) {
 
              
     return (
-
-
-
-
-     <div>
+        <EcommerceContext.Consumer>
+            {context=><div>
          
          <Card className="productCard" style={{ width: '15rem', height:'30rem' }}>
  
@@ -33,7 +31,7 @@ function Producto(props) {
                 { extendida&& <Card.Text style={{fontSize:'0.8rem'}}>Descripción: {description}</Card.Text>}
                 { extendida&& <Card.Text style={{fontSize:'0.8rem'}}>SKU: {sku}</Card.Text>}
                                                 
-                { props.userLogin &&
+                { context.userLogin &&
                 <Button variant="outline-dark" style={{width:'120px'}} className="Button" onClick={comprar}>Comprar</Button>}
 
                 { verDetalle &&
@@ -46,7 +44,11 @@ function Producto(props) {
             
 
     </div>
+            }
 
+
+     
+    </EcommerceContext.Consumer>
     )   
 }
 

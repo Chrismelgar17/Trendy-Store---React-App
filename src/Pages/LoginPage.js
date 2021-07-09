@@ -1,12 +1,14 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {Link,useHistory} from 'react-router-dom'
 import firebase from '../Config/Firebase'
 import ButtonWithLoading from '../Components/Forms/ButtonWithLoading'
 import FormGroup from '../Components/Forms/FormGroup'
 import AlertCustom from '../Components/Forms/AlertCustom'
+import EcommerceContext from '../Context/EcommerceContext'
 
-
-function Login (props){
+function Login(){
+    
+    const context = useContext(EcommerceContext)
     const [form,setForm] = useState({email:'',password:''})
     const history = useHistory()
     const [loading, setLoading] = useState(false)
@@ -19,7 +21,7 @@ function Login (props){
         .then(data=>{
             setLoading(false)
             console.log("Login ok",data)
-            props.setUserLogin(true);
+            context.loginUser({email:form.email})
             history.push("/")
         })
         .catch(error=>{
@@ -38,26 +40,31 @@ function Login (props){
     }
 
     return(
-        <div className="Box">
-        <div className="Login">
-            <h1>Iniciar sesión</h1>
-            <br></br>    
-            <form onSubmit={handleSubmit} className="App-header">
-            <div>
-            <FormGroup label="Email" type="email" name="email" value={form.email} change={handleChange} />
-            </div>
-            <div>
-            <FormGroup label="Contraseña" type="password" name="password" value={form.password} change={handleChange} />
-            </div>
-            <div>
-            <Link>Olvidé mi contraseña</Link>
-            </div>
-            <ButtonWithLoading loading={loading}> Acceder </ButtonWithLoading>
+        
+                
+                <div className="Box">
+                <div className="Login">
+                    <h1>Iniciar sesión</h1>
+                    <br></br>    
+                    <form onSubmit={handleSubmit} className="App-header">
+                    <div>
+                    <FormGroup label="Email" type="email" name="email" value={form.email} change={handleChange} />
+                    </div>
+                    <div>
+                    <FormGroup label="Contraseña" type="password" name="password" value={form.password} change={handleChange} />
+                    </div>
+                    <div>
+                    <Link>Olvidé mi contraseña</Link>
+                    </div>
+                    <ButtonWithLoading loading={loading}> Acceder </ButtonWithLoading>
+                    
+                    <AlertCustom variant={alert.variant} text={alert.text} />
+                    </form>
+                </div>    
+                </div>
+                
             
-            <AlertCustom variant={alert.variant} text={alert.text} />
-            </form>
-        </div>    
-        </div>
+       
     );
 
 }
